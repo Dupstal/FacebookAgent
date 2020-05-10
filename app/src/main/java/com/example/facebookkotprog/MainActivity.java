@@ -62,7 +62,6 @@ public class MainActivity extends AppCompatActivity {
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
-
             }
 
             @Override
@@ -77,6 +76,15 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
+
+    AccessTokenTracker tokenTracker = new AccessTokenTracker() {
+        @Override
+        protected void onCurrentAccessTokenChanged(AccessToken oldAccessToken, AccessToken currentAccessToken) {
+            if(currentAccessToken != null) {
+                loadUserProfile(currentAccessToken);
+            }
+        }
+    };
 
     String first_name = "";
     String last_name = "";
@@ -123,6 +131,4 @@ public class MainActivity extends AppCompatActivity {
         callbackManager.onActivityResult(requestCode, resultCode, data);
         super.onActivityResult(requestCode, resultCode, data);
     }
-
-
 }
